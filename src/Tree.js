@@ -2,16 +2,22 @@ import { Node } from './Node';
 
 export class Tree {
   constructor(arr) {
-    this.root = this.buildTree(arr);
+    const processedArr = this.processArr(arr);
+    this.root = this.buildTree(processedArr);
+  }
+
+  processArr(arr) {
+    let arrCopy = arr;
+    arrCopy.sort((a, b) => a - b);
+    arrCopy = arr.reduce((accumulatorArr, curValue) => {
+      if (!accumulatorArr.includes(curValue)) accumulatorArr.push(curValue);
+      return accumulatorArr;
+    }, []);
+    return arrCopy;
   }
 
   buildTree(arr) {
-    /**
-     * 1) remove duplicate elements
-     * 2) sort array
-     * 3) recursivley build tree
-     */
-    return root;
+    // return root;
   }
 }
 
