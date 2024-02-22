@@ -3,7 +3,8 @@ import { Node } from './Node';
 export class Tree {
   constructor(arr) {
     const processedArr = this.processArr(arr);
-    this.root = this.buildTree(processedArr);
+    console.log('🚀 ~ Tree ~ constructor ~ processedArr:', processedArr);
+    this.root = this.buildTree(processedArr, 0, processedArr.length - 1);
   }
 
   processArr(arr) {
@@ -16,8 +17,16 @@ export class Tree {
     return arrCopy;
   }
 
-  buildTree(arr) {
-    // return root;
+  buildTree(arr, start, end) {
+    if (start > end) return null;
+
+    const mid = Math.floor((start + end) / 2);
+    const root = new Node(arr[mid]);
+
+    root.left = this.buildTree(arr, start, mid - 1);
+    root.right = this.buildTree(arr, mid + 1, end);
+
+    return root;
   }
 }
 
@@ -35,4 +44,4 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(myTree.root);
+prettyPrint(myTree.root);
