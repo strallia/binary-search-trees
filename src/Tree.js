@@ -28,6 +28,25 @@ export class Tree {
 
     return root;
   }
+
+  insert(value, curNode = this.root) {
+    // Don't insert duplicate values
+    if (value === curNode.data) return;
+
+    // Base case: stop at leaf node and insert value
+    if (curNode.left === null && curNode.right === null) {
+      const newNode = new Node(value);
+      if (value < curNode.data) {
+        curNode.left = newNode;
+      } else {
+        curNode.right = newNode;
+      }
+      return;
+    }
+
+    const nextNode = value < curNode.data ? curNode.left : curNode.right;
+    this.insert(value, nextNode);
+  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -44,4 +63,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+myTree.insert(10);
+myTree.insert(6345);
 prettyPrint(myTree.root);
