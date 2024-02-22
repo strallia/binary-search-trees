@@ -49,15 +49,32 @@ export class Tree {
   }
 
   delete(value, prevNode = null, curNode = this.root) {
-    // Base case: delete curNode if matches given value
-    if (curNode.data === value) {
+    // Base case: delete curNode only if matches value and is a leaf node
+    if (
+      curNode.data === value &&
+      curNode.left === null &&
+      curNode.right === null
+    ) {
       const position = value < curNode.data ? 'left' : 'right';
       prevNode[position] = null;
       return;
     }
 
-    // traverse tree till hit leaf node with desired value to remove
-    const nextNode = value < curNode.data ? curNode.left : curNode.right;
+    let nextNode = null;
+    if (
+      curNode.data === value &&
+      (curNode.left !== null || curNode.right !== null)
+    ) {
+      // if select node has 1 child, swap data values for curNode and child node
+      const childNode = curNode.left === null ? curNode.right : curNode.left;
+      const curNodeValue = curNode.data;
+      curNode.data = childNode.data;
+      childNode.data = curNodeValue;
+      nextNode = childNode;
+    } else {
+      // traverse the tree
+      nextNode = value < curNode.data ? curNode.left : curNode.right;
+    }
     this.delete(value, curNode, nextNode);
   }
 }
@@ -76,5 +93,5 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-myTree.delete(23);
+myTree.delete(5);
 prettyPrint(myTree.root);
