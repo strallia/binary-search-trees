@@ -47,6 +47,19 @@ export class Tree {
     const nextNode = value < curNode.data ? curNode.left : curNode.right;
     this.insert(value, nextNode);
   }
+
+  delete(value, prevNode = null, curNode = this.root) {
+    // Base case: delete curNode if matches given value
+    if (curNode.data === value) {
+      const position = value < curNode.data ? 'left' : 'right';
+      prevNode[position] = null;
+      return;
+    }
+
+    // traverse tree till hit leaf node with desired value to remove
+    const nextNode = value < curNode.data ? curNode.left : curNode.right;
+    this.delete(value, curNode, nextNode);
+  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -63,6 +76,5 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-myTree.insert(10);
-myTree.insert(6345);
+myTree.delete(23);
 prettyPrint(myTree.root);
