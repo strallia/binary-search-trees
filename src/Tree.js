@@ -70,23 +70,23 @@ export class Tree {
 
       // loop until get to number just greater than target value
       // (ie the inorder successor)
-      let inorderSuccessorNode = curNode.right;
-      let nodeBeforeInorderSuccessor = curNode;
+      let successor = curNode.right;
+      let successorParent = curNode;
       let movesCount = 0;
-      while (inorderSuccessorNode.left !== null) {
-        nodeBeforeInorderSuccessor = inorderSuccessorNode;
-        inorderSuccessorNode = inorderSuccessorNode.left;
+      while (successor.left !== null) {
+        successorParent = successor;
+        successor = successor.left;
         movesCount += 1;
       }
 
       // replace curNode with inorder successor depending on
       // how far the inorder successor is
       if (movesCount === 0) {
-        curNode.data = inorderSuccessorNode.data;
-        curNode.right = inorderSuccessorNode.right;
+        curNode.data = successor.data;
+        curNode.right = successor.right;
       } else {
-        nodeBeforeInorderSuccessor.left = inorderSuccessorNode.right;
-        curNode.data = inorderSuccessorNode.data;
+        successorParent.left = successor.right;
+        curNode.data = successor.data;
       }
       return;
     }
