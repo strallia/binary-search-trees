@@ -63,6 +63,35 @@ export class Tree {
     let nextNode = null;
     if (
       curNode.data === value &&
+      curNode.left !== null &&
+      curNode.right !== null
+    ) {
+      // if select node has 2 children, replace curNode with inorder successor
+
+      // loop until get to number just greater than target value
+      // (ie the inorder successor)
+      let inorderSuccessorNode = curNode.right;
+      let nodeBeforeInorderSuccessor = curNode;
+      let movesCount = 0;
+      while (inorderSuccessorNode.left !== null) {
+        nodeBeforeInorderSuccessor = inorderSuccessorNode;
+        inorderSuccessorNode = inorderSuccessorNode.left;
+        movesCount += 1;
+      }
+
+      // replace curNode with inorder successor depending on
+      // how far the inorder successor is
+      if (movesCount === 0) {
+        curNode.data = inorderSuccessorNode.data;
+        curNode.right = inorderSuccessorNode.right;
+      } else {
+        nodeBeforeInorderSuccessor.left = inorderSuccessorNode.right;
+        curNode.data = inorderSuccessorNode.data;
+      }
+      return;
+    }
+    if (
+      curNode.data === value &&
       (curNode.left !== null || curNode.right !== null)
     ) {
       // if select node has 1 child, swap data values for curNode and child node
@@ -72,7 +101,7 @@ export class Tree {
       childNode.data = curNodeValue;
       nextNode = childNode;
     } else {
-      // traverse the tree
+      // continue traversing tree
       nextNode = value < curNode.data ? curNode.left : curNode.right;
     }
     this.delete(value, curNode, nextNode);
@@ -93,5 +122,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-myTree.delete(5);
+myTree.delete(4);
+myTree.delete(8);
 prettyPrint(myTree.root);
