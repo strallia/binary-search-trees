@@ -114,6 +114,24 @@ export class Tree {
     const nextNode = value < curNode.data ? curNode.left : curNode.right;
     return this.find(value, nextNode);
   }
+
+  levelOrder(callback = null) {
+    /**
+     * If callback is provided, runs callback on each node traversed in
+     * breath-first level order. Otherwise, returns array of values.
+     *   - try implementing using iteration and recursion
+     */
+
+    const queue = [this.root];
+    while (queue) {
+      const node = queue.shift();
+      callback(node);
+      if (queue.length === 0 && node.left === null && node.right === null)
+        return;
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -130,5 +148,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(myTree.find(324));
+console.log(
+  myTree.levelOrder((arg) => {
+    console.log(arg);
+  }),
+);
 prettyPrint(myTree.root);
