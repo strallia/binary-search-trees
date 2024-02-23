@@ -118,19 +118,24 @@ export class Tree {
   levelOrder(callback = null) {
     /**
      * If callback is provided, runs callback on each node traversed in
-     * breath-first level order. Otherwise, returns array of values.
+     * breadth-first level order. Otherwise, returns array of values.
      *   - try implementing using iteration and recursion
      */
-
+    const breadthOrder = [];
     const queue = [this.root];
     while (queue) {
       const node = queue.shift();
-      callback(node);
-      if (queue.length === 0 && node.left === null && node.right === null)
-        return;
+
+      callback ? callback(node) : breadthOrder.push(node.data);
+      if (queue.length === 0 && node.left === null && node.right === null) {
+        if (callback) break;
+        else return breadthOrder;
+      }
+
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
+    // }
   }
 }
 
@@ -153,4 +158,5 @@ console.log(
     console.log(arg);
   }),
 );
+console.log(myTree.levelOrder());
 prettyPrint(myTree.root);
