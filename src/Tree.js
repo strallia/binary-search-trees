@@ -107,6 +107,13 @@ export class Tree {
     }
     this.delete(value, curNode, nextNode);
   }
+
+  find(value, curNode = this.root) {
+    // Returns node with given value
+    if (curNode.data === value) return curNode;
+    const nextNode = value < curNode.data ? curNode.left : curNode.right;
+    return this.find(value, nextNode);
+  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -123,6 +130,5 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-myTree.delete(4);
-myTree.delete(8);
+console.log(myTree.find(324));
 prettyPrint(myTree.root);
