@@ -60,7 +60,6 @@ export class Tree {
       return;
     }
 
-    let nextNode = null;
     if (
       curNode.data === value &&
       curNode.left !== null &&
@@ -90,6 +89,8 @@ export class Tree {
       }
       return;
     }
+
+    let nextNode = null;
     if (
       curNode.data === value &&
       (curNode.left !== null || curNode.right !== null)
