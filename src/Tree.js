@@ -138,13 +138,31 @@ export class Tree {
     // }
   }
 
-  inOrder(callback, node = this.root) {
-    // returns array of nodes in inorder traversal
-    if (!node) return [];
+  inOrder(callback = null, node = this.root) {
+    /**
+     * If callback provided, runs callback on each node in inorder
+     * traversal, otherwise returns array of values
+     */
+    if (callback) {
+      if (!node) return [];
 
-    const leftTreeArr = this.inOrder(callback, node.left);
-    const rightTreeArr = this.inOrder(callback, node.right);
-    return [...leftTreeArr, node, ...rightTreeArr];
+      const leftTreeArr = this.inOrder(callback, node.left);
+      const rightTreeArr = this.inOrder(callback, node.right);
+      let formedArr = [leftTreeArr, [node], rightTreeArr].filter(
+        (item) => item.length !== 0,
+      );
+
+      if (formedArr.length === 3) {
+        const flat = formedArr.flat();
+        flat.forEach((node) => callback(node));
+        return [];
+      } else return formedArr.flat();
+    } else {
+      if (!node) return [];
+      const leftTreeArr = this.inOrder(callback, node.left);
+      const rightTreeArr = this.inOrder(callback, node.right);
+      return [...leftTreeArr, node, ...rightTreeArr];
+    }
   }
 }
 
@@ -163,9 +181,8 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(myTree.root);
+
+myTree.inOrder((node) => {
+  console.log(node.data);
+});
 console.log(myTree.inOrder());
-// console.log(
-//   myTree.inOrder((arg) => {
-//     console.log(arg);
-//   }),
-// );
