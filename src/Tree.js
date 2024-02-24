@@ -139,11 +139,12 @@ export class Tree {
   }
 
   inOrder(callback, node = this.root) {
-    if (!node) return;
+    // returns array of nodes in inorder traversal
+    if (!node) return [];
 
-    this.inOrder(callback, node.left);
-    callback(node);
-    this.inOrder(callback, node.right);
+    const leftTreeArr = this.inOrder(callback, node.left);
+    const rightTreeArr = this.inOrder(callback, node.right);
+    return [...leftTreeArr, node, ...rightTreeArr];
   }
 }
 
@@ -161,9 +162,10 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(
-  myTree.inOrder((arg) => {
-    console.log(arg);
-  }),
-);
 prettyPrint(myTree.root);
+console.log(myTree.inOrder());
+// console.log(
+//   myTree.inOrder((arg) => {
+//     console.log(arg);
+//   }),
+// );
