@@ -149,25 +149,17 @@ export class Tree {
      * If callback provided, runs callback on each node in inorder
      * traversal, otherwise returns array of values
      */
-    if (callback) {
-      if (!node) return [];
+    if (!node) return [];
 
-      const leftTreeArr = this.inOrder(callback, node.left);
-      const rightTreeArr = this.inOrder(callback, node.right);
-      let formedArr = [...leftTreeArr, node, ...rightTreeArr];
-      if (formedArr.length === totalNodes) {
+    const leftTreeArr = this.inOrder(callback, node.left);
+    const rightTreeArr = this.inOrder(callback, node.right);
+    let formedArr = [...leftTreeArr, node, ...rightTreeArr];
+    if (formedArr.length === totalNodes) {
+      if (callback) {
         formedArr.forEach((node) => callback(node));
         return;
-      } else return formedArr;
-    } else {
-      if (!node) return [];
-      const leftTreeArr = this.inOrder(callback, node.left);
-      const rightTreeArr = this.inOrder(callback, node.right);
-      let formedArr = [...leftTreeArr, node, ...rightTreeArr];
-      if (formedArr.length === totalNodes) {
-        return formedArr.map((node) => node.data);
-      } else return formedArr;
-    }
+      } else return formedArr.map((node) => node.data);
+    } else return formedArr;
   }
 }
 
