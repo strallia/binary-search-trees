@@ -182,7 +182,7 @@ export class Tree {
 
   postOrder(callback = null, node = this.root, totalNodes = this.totalNodes()) {
     /**
-     * If callback provided, runs callback on each node in preorder
+     * If callback provided, runs callback on each node in postorder
      * traversal, otherwise returns array of values
      */
     if (!node) return [];
@@ -196,6 +196,15 @@ export class Tree {
         return;
       } else return formedArr.map((node) => node.data);
     } else return formedArr;
+  }
+
+  height(node) {
+    // Returns height of given node
+    if (!node) return -1;
+
+    let leftHeight = this.height(node.left) + 1;
+    let rightHeight = this.height(node.right) + 1;
+    return leftHeight > rightHeight ? leftHeight : rightHeight;
   }
 }
 
@@ -214,21 +223,12 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const myTree = new Tree([1, 2, 5, 6, 3, 4, 7]);
 prettyPrint(myTree.root);
-myTree.postOrder((node) => {
-  console.log(node.data);
-});
-console.log(myTree.postOrder());
+console.log(myTree.height(myTree.find(6)));
 
 const myTree2 = new Tree([1, 2, 5, 2, 4]);
 prettyPrint(myTree2.root);
-myTree2.postOrder((node) => {
-  console.log(node.data);
-});
-console.log(myTree2.postOrder());
+console.log(myTree2.height(myTree2.find(2)));
 
 const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(myTree3.root);
-myTree3.postOrder((node) => {
-  console.log(node.data);
-});
-console.log(myTree3.postOrder());
+console.log(myTree3.height(myTree3.find(8)));
