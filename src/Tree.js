@@ -163,7 +163,10 @@ export class Tree {
       if (!node) return [];
       const leftTreeArr = this.inOrder(callback, node.left);
       const rightTreeArr = this.inOrder(callback, node.right);
-      return [...leftTreeArr, node, ...rightTreeArr];
+      let formedArr = [...leftTreeArr, node, ...rightTreeArr];
+      if (formedArr.length === totalNodes) {
+        return formedArr.map((node) => node.data);
+      } else return formedArr;
     }
   }
 }
@@ -186,16 +189,18 @@ prettyPrint(myTree.root);
 myTree.inOrder((node) => {
   console.log(node.data);
 });
-// console.log(myTree.inOrder()); // TODO get this to return node VALUES
+console.log(myTree.inOrder());
 
 const myTree2 = new Tree([1, 2, 5, 6, 4, 7]);
 prettyPrint(myTree2.root);
 myTree2.inOrder((node) => {
   console.log(node.data);
 });
+console.log(myTree2.inOrder());
 
 const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(myTree3.root);
 myTree3.inOrder((node) => {
   console.log(node.data);
 });
+console.log(myTree3.inOrder());
