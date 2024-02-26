@@ -118,7 +118,6 @@ export class Tree {
     /**
      * If callback is provided, runs callback on each node traversed in
      * breadth-first level order. Otherwise, returns array of values.
-     *   - try implementing using iteration and recursion
      */
     const breadthOrder = [];
     const queue = [this.root];
@@ -224,15 +223,16 @@ export class Tree {
      * left and right subtrees of every node in tree is no
      * more than one, otherwise returns false
      */
-    if (!curNode) return;
+    if (!curNode) return true;
 
     let heightDiff = Math.abs(
       this.height(curNode.left) - this.height(curNode.right),
     );
     if (heightDiff > 1) return false;
-    this.isBalanced(curNode.left);
-    this.isBalanced(curNode.right);
-    return true;
+    let leftIsBalanced = this.isBalanced(curNode.left);
+    let rightIsBalanced = this.isBalanced(curNode.right);
+    if (leftIsBalanced && rightIsBalanced) return true;
+    else return false;
   }
 
   rebalance() {
@@ -256,20 +256,22 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([4, 8, 15]);
-myTree.insert(1);
-myTree.insert(7);
-myTree.insert(6);
-myTree.insert(5);
+myTree.insert(20);
+myTree.insert(18);
 prettyPrint(myTree.root);
 console.log('is tree balanced?', myTree.isBalanced());
-myTree.rebalance();
-console.log('rebalancing tree...');
-prettyPrint(myTree.root);
 
 // const myTree2 = new Tree([1, 2, 5, 4]);
 // prettyPrint(myTree2.root);
 // console.log(myTree2.isBalanced());
 
-// const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-// prettyPrint(myTree3.root);
-// console.log(myTree3.isBalanced());
+const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+prettyPrint(myTree3.root);
+console.log('is tree balanced?', myTree3.isBalanced());
+
+const myTree3Unbalanced = new Tree([
+  1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324,
+]);
+myTree3Unbalanced.insert(22);
+prettyPrint(myTree3Unbalanced.root);
+console.log('is tree balanced?', myTree3Unbalanced.isBalanced());
