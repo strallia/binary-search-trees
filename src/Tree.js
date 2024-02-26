@@ -218,6 +218,23 @@ export class Tree {
     if (count >= 0) return count + 1;
     return -1;
   }
+
+  isBalanced(curNode = this.root) {
+    /**
+     * Returns true if tree is balance (ie difference in heights of
+     * left and right subtrees of every node in tree is no
+     * more than one, otherwise returns false
+     */
+    if (!curNode) return;
+
+    let heightDiff = Math.abs(
+      this.height(curNode.left) - this.height(curNode.right),
+    );
+    if (heightDiff > 1) return false;
+    this.isBalanced(curNode.left);
+    this.isBalanced(curNode.right);
+    return true;
+  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -235,12 +252,12 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const myTree = new Tree([1, 2, 5, 6, 3, 4, 7]);
 prettyPrint(myTree.root);
-console.log(myTree.depth(myTree.find(7)));
+console.log(myTree.isBalanced());
 
 const myTree2 = new Tree([1, 2, 5, 4]);
 prettyPrint(myTree2.root);
-console.log(myTree2.depth(myTree2.find(1)));
+console.log(myTree2.isBalanced());
 
 const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(myTree3.root);
-console.log(myTree3.depth(myTree3.find(67)));
+console.log(myTree3.isBalanced());
