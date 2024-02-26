@@ -109,9 +109,10 @@ export class Tree {
   }
 
   find(value, curNode = this.root) {
-    // Returns node with given value
+    // Returns node with given value, otherwise false
     if (curNode.data === value) return curNode;
     const nextNode = value < curNode.data ? curNode.left : curNode.right;
+    if (!nextNode) return false;
     return this.find(value, nextNode);
   }
 
@@ -250,14 +251,18 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const myTree = new Tree([1, 2, 5, 6, 3, 4, 7]);
+const myTree = new Tree([4, 8, 15]);
+// myTree.insert(1);
+// myTree.insert(7);
 prettyPrint(myTree.root);
-console.log(myTree.isBalanced());
+console.log(myTree.find(7));
 
-const myTree2 = new Tree([1, 2, 5, 4]);
-prettyPrint(myTree2.root);
-console.log(myTree2.isBalanced());
+// const myTree2 = new Tree([1, 2, 5, 4]);
+// prettyPrint(myTree2.root);
+// console.log(myTree2.isBalanced());
 
-const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(myTree3.root);
-console.log(myTree3.isBalanced());
+// const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+// prettyPrint(myTree3.root);
+// console.log(myTree3.isBalanced());
+
+// TODO: check if isBalanced method works on unbalanced trees
