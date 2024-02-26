@@ -199,12 +199,24 @@ export class Tree {
   }
 
   height(node) {
-    // Returns height of given node
+    // Returns height of given node (number of edges from node to farthest leaf node)
     if (!node) return -1;
 
     let leftHeight = this.height(node.left) + 1;
     let rightHeight = this.height(node.right) + 1;
     return leftHeight > rightHeight ? leftHeight : rightHeight;
+  }
+
+  depth(node, curNode = this.root) {
+    // Returns depth of given node (number of edges from root to node)
+    if (!curNode) return -1;
+    if (curNode === node) return 0;
+
+    let count = this.depth(node, curNode.left);
+    if (count >= 0) return count + 1;
+    count = this.depth(node, curNode.right);
+    if (count >= 0) return count + 1;
+    return -1;
   }
 }
 
@@ -223,12 +235,12 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const myTree = new Tree([1, 2, 5, 6, 3, 4, 7]);
 prettyPrint(myTree.root);
-console.log(myTree.height(myTree.find(6)));
+console.log(myTree.depth(myTree.find(7)));
 
-const myTree2 = new Tree([1, 2, 5, 2, 4]);
+const myTree2 = new Tree([1, 2, 5, 4]);
 prettyPrint(myTree2.root);
-console.log(myTree2.height(myTree2.find(2)));
+console.log(myTree2.depth(myTree2.find(1)));
 
 const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(myTree3.root);
-console.log(myTree3.height(myTree3.find(8)));
+console.log(myTree3.depth(myTree3.find(67)));
