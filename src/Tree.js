@@ -234,6 +234,12 @@ export class Tree {
     this.isBalanced(curNode.right);
     return true;
   }
+
+  rebalance() {
+    // Rebalances current tree
+    const newArr = this.inOrder();
+    this.root = this.buildTree(newArr, 0, newArr.length - 1);
+  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -255,11 +261,14 @@ myTree.insert(7);
 myTree.insert(6);
 myTree.insert(5);
 prettyPrint(myTree.root);
-console.log(myTree.isBalanced());
+console.log('is tree balanced?', myTree.isBalanced());
+myTree.rebalance();
+console.log('rebalancing tree...');
+prettyPrint(myTree.root);
 
-const myTree2 = new Tree([1, 2, 5, 4]);
-prettyPrint(myTree2.root);
-console.log(myTree2.isBalanced());
+// const myTree2 = new Tree([1, 2, 5, 4]);
+// prettyPrint(myTree2.root);
+// console.log(myTree2.isBalanced());
 
 // const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // prettyPrint(myTree3.root);
