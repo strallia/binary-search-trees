@@ -31,21 +31,19 @@ export class Tree {
 
   insert(value, curNode = this.root) {
     // Don't insert duplicate values
-    if (value === curNode.data) return;
+    if (this.find(value)) return;
 
-    // Base case: stop at leaf node and insert value
-    if (curNode.left === null && curNode.right === null) {
-      const newNode = new Node(value);
-      if (value < curNode.data) {
-        curNode.left = newNode;
-      } else {
-        curNode.right = newNode;
-      }
-      return;
+    if (!curNode) return new Node(value);
+
+    const newNode =
+      value < curNode.data
+        ? this.insert(value, curNode.left)
+        : this.insert(value, curNode.right);
+    if (newNode) {
+      value < curNode.data
+        ? (curNode.left = newNode)
+        : (curNode.right = newNode);
     }
-
-    const nextNode = value < curNode.data ? curNode.left : curNode.right;
-    this.insert(value, nextNode);
   }
 
   delete(value, prevNode = null, curNode = this.root) {
@@ -252,10 +250,11 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const myTree = new Tree([4, 8, 15]);
-// myTree.insert(1);
-// myTree.insert(7);
+myTree.insert(1);
+myTree.insert(7);
+myTree.insert(6);
+myTree.insert(5);
 prettyPrint(myTree.root);
-console.log(myTree.find(7));
 
 // const myTree2 = new Tree([1, 2, 5, 4]);
 // prettyPrint(myTree2.root);
