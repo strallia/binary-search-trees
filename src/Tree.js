@@ -47,24 +47,19 @@ export class Tree {
   }
 
   delete(value, prevNode = null, curNode = this.root) {
+    // Deletes node with given value from tree, otherwise returns false
+    // if value is not present
+    if (!this.find(value)) return false;
+
     // Base case: delete curNode only if matches value and is a leaf node
-    if (
-      curNode.data === value &&
-      curNode.left === null &&
-      curNode.right === null
-    ) {
+    if (curNode.data === value && !curNode.left && !curNode.right) {
       const position = value < curNode.data ? 'left' : 'right';
       prevNode[position] = null;
       return;
     }
 
-    if (
-      curNode.data === value &&
-      curNode.left !== null &&
-      curNode.right !== null
-    ) {
-      // if select node has 2 children, replace curNode with inorder successor
-
+    // if select node has 2 children, replace curNode with inorder successor
+    if (curNode.data === value && curNode.left && curNode.right) {
       // loop until get to number just greater than target value
       // (ie the inorder successor)
       let successor = curNode.right;
@@ -89,11 +84,8 @@ export class Tree {
     }
 
     let nextNode = null;
-    if (
-      curNode.data === value &&
-      (curNode.left !== null || curNode.right !== null)
-    ) {
-      // if select node has 1 child, swap data values for curNode and child node
+    // if select node has 1 child, swap data values for curNode and child node
+    if (curNode.data === value && (curNode.left || curNode.right)) {
       const childNode = curNode.left === null ? curNode.right : curNode.left;
       const curNodeValue = curNode.data;
       curNode.data = childNode.data;
@@ -259,19 +251,20 @@ const myTree = new Tree([4, 8, 15]);
 myTree.insert(20);
 myTree.insert(18);
 prettyPrint(myTree.root);
-console.log('is tree balanced?', myTree.isBalanced());
+console.log(myTree.delete(15));
+prettyPrint(myTree.root);
 
 // const myTree2 = new Tree([1, 2, 5, 4]);
 // prettyPrint(myTree2.root);
 // console.log(myTree2.isBalanced());
 
-const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(myTree3.root);
-console.log('is tree balanced?', myTree3.isBalanced());
+// const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+// prettyPrint(myTree3.root);
+// console.log('is tree balanced?', myTree3.isBalanced());
 
-const myTree3Unbalanced = new Tree([
-  1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324,
-]);
-myTree3Unbalanced.insert(22);
-prettyPrint(myTree3Unbalanced.root);
-console.log('is tree balanced?', myTree3Unbalanced.isBalanced());
+// const myTree3Unbalanced = new Tree([
+//   1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324,
+// ]);
+// myTree3Unbalanced.insert(22);
+// prettyPrint(myTree3Unbalanced.root);
+// console.log('is tree balanced?', myTree3Unbalanced.isBalanced());
