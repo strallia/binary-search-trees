@@ -255,13 +255,12 @@ myTree.insert(7);
 myTree.insert(6);
 myTree.insert(5);
 prettyPrint(myTree.root);
+console.log(myTree.isBalanced());
 
-// const myTree2 = new Tree([1, 2, 5, 4]);
-// prettyPrint(myTree2.root);
-// console.log(myTree2.isBalanced());
+const myTree2 = new Tree([1, 2, 5, 4]);
+prettyPrint(myTree2.root);
+console.log(myTree2.isBalanced());
 
 // const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // prettyPrint(myTree3.root);
 // console.log(myTree3.isBalanced());
-
-// TODO: check if isBalanced method works on unbalanced trees
