@@ -46,56 +46,45 @@ export class Tree {
     }
   }
 
-  delete(value, prevNode = null, curNode = this.root) {
-    // Deletes node with given value from tree, otherwise returns false
-    // if value is not present
-    if (!this.find(value)) return false;
+  delete(value, curNode = this.root) {
+    // Deletes node with given value from tree
+    if (!curNode) return false;
 
-    // Base case: delete curNode only if matches value and is a leaf node
+    // if target node is a leaf node, delete target
     if (curNode.data === value && !curNode.left && !curNode.right) {
-      const position = value < curNode.data ? 'left' : 'right';
-      prevNode[position] = null;
-      return;
+      return true;
     }
 
-    // if select node has 2 children, replace curNode with inorder successor
-    if (curNode.data === value && curNode.left && curNode.right) {
-      // loop until get to number just greater than target value
-      // (ie the inorder successor)
-      let successor = curNode.right;
-      let successorParent = curNode;
-      let movesCount = 0;
-      while (successor.left !== null) {
-        successorParent = successor;
-        successor = successor.left;
-        movesCount += 1;
-      }
-
-      // replace curNode with inorder successor depending on
-      // how far the inorder successor is
-      if (movesCount === 0) {
-        curNode.data = successor.data;
-        curNode.right = successor.right;
-      } else {
-        successorParent.left = successor.right;
-        curNode.data = successor.data;
-      }
-      return;
-    }
-
-    let nextNode = null;
-    // if select node has 1 child, swap data values for curNode and child node
-    if (curNode.data === value && (curNode.left || curNode.right)) {
-      const childNode = curNode.left === null ? curNode.right : curNode.left;
-      const curNodeValue = curNode.data;
+    // if target node has 1 child node, delete target node by
+    // establishing link between its previous node and child
+    if (curNode.data === value && (!curNode.left || !curNode.right)) {
+      let childNode = curNode.left ? curNode.left : curNode.right;
       curNode.data = childNode.data;
-      childNode.data = curNodeValue;
-      nextNode = childNode;
-    } else {
-      // continue traversing tree
-      nextNode = value < curNode.data ? curNode.left : curNode.right;
+      curNode.right = childNode.right;
+      curNode.left = childNode.left;
     }
-    this.delete(value, curNode, nextNode);
+
+    // if target node has 2 child nodes, replace target node
+    // with inorder successor
+    if (curNode.data === value && curNode.left && curNode.right) {
+      let successor = curNode.right;
+      while (successor) {
+        if (!successor.left) break;
+        successor = successor.left;
+      }
+      // swap values for target node and successor
+      let curNodeData = curNode.data;
+      curNode.data = successor.data;
+      successor.data = curNodeData;
+    }
+
+    // traverse tree until hit target node
+    let leftFoundTarget = this.delete(value, curNode.left, curNode);
+    let rightFoundTarget = this.delete(value, curNode.right, curNode);
+    if (leftFoundTarget || rightFoundTarget) {
+      const positionToDelete = leftFoundTarget ? 'left' : 'right';
+      curNode[positionToDelete] = null;
+    } else return;
   }
 
   find(value, curNode = this.root) {
@@ -253,14 +242,17 @@ myTree.insert(18);
 prettyPrint(myTree.root);
 console.log(myTree.delete(15));
 prettyPrint(myTree.root);
+// TODO does delete need to work on unbalanced and balanced trees?
 
 // const myTree2 = new Tree([1, 2, 5, 4]);
 // prettyPrint(myTree2.root);
-// console.log(myTree2.isBalanced());
+// console.log(myTree2.delete(5));
+// prettyPrint(myTree2.root);
 
-// const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-// prettyPrint(myTree3.root);
-// console.log('is tree balanced?', myTree3.isBalanced());
+const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+prettyPrint(myTree3.root);
+console.log(myTree3.delete(8));
+prettyPrint(myTree3.root);
 
 // const myTree3Unbalanced = new Tree([
 //   1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324,
