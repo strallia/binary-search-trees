@@ -47,7 +47,8 @@ export class Tree {
   }
 
   delete(value, curNode = this.root) {
-    // Deletes node with given value from tree
+    // Deletes node with given value from tree.
+    // Tree must be balanced beforehand. Use rebalance() if needed.
     if (!curNode) return false;
 
     // if target node is a leaf node, delete target
@@ -236,27 +237,30 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const myTree = new Tree([4, 8, 15]);
-myTree.insert(20);
-myTree.insert(18);
+// Driver script for testing
+const generateRandomTreeArr = (maxNumber, numOfElements) => {
+  return [...Array(numOfElements)].map(() => {
+    return Math.floor(Math.random() * maxNumber);
+  });
+};
+
+const myTree = new Tree(generateRandomTreeArr(100, 20));
 prettyPrint(myTree.root);
-console.log(myTree.delete(15));
+console.log('is tree balanced?:', myTree.isBalanced());
+console.log('level order:', myTree.levelOrder());
+console.log('inOrder:', myTree.inOrder());
+console.log('preOrder:', myTree.preOrder());
+console.log('postOrder:', myTree.postOrder());
+myTree.insert(120);
+myTree.insert(188);
+myTree.insert(300);
 prettyPrint(myTree.root);
-// TODO does delete need to work on unbalanced and balanced trees?
-
-// const myTree2 = new Tree([1, 2, 5, 4]);
-// prettyPrint(myTree2.root);
-// console.log(myTree2.delete(5));
-// prettyPrint(myTree2.root);
-
-const myTree3 = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(myTree3.root);
-console.log(myTree3.delete(8));
-prettyPrint(myTree3.root);
-
-// const myTree3Unbalanced = new Tree([
-//   1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324,
-// ]);
-// myTree3Unbalanced.insert(22);
-// prettyPrint(myTree3Unbalanced.root);
-// console.log('is tree balanced?', myTree3Unbalanced.isBalanced());
+console.log('is tree balanced?:', myTree.isBalanced());
+myTree.rebalance();
+console.log('balancing tree...');
+console.log('is tree balanced?:', myTree.isBalanced());
+prettyPrint(myTree.root);
+console.log('level order:', myTree.levelOrder());
+console.log('inOrder:', myTree.inOrder());
+console.log('preOrder:', myTree.preOrder());
+console.log('postOrder:', myTree.postOrder());
