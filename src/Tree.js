@@ -56,8 +56,7 @@ export class Tree {
       return true;
     }
 
-    // if target node has 1 child node, delete target node by
-    // establishing link between its previous node and child
+    // if target node has 1 child node, copy child node to target node
     if (curNode.data === value && (!curNode.left || !curNode.right)) {
       let childNode = curNode.left ? curNode.left : curNode.right;
       curNode.data = childNode.data;
