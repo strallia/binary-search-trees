@@ -4,4 +4,4 @@
 
 # Purpose
 
-Practice creating balanced binary search trees.
+Practice creating and manipulating data in binary search trees.
